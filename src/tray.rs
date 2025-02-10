@@ -11,7 +11,7 @@ pub fn init() -> Result<(), Box<dyn std::error::Error>> {
   let tray_menu = Menu::new();
 
   let ip_menu_items: Vec<(MenuItem, Ipv4Addr)> = local_ip::list().into_iter().map(|(name, ip)| {
-    let ip_menu_item = MenuItem::new(format!("{ip}:50127 ({name})"), true, None);
+    let ip_menu_item = MenuItem::new(format!("{ip}:7127 ({name})"), true, None);
     tray_menu.append(&ip_menu_item).unwrap();
 
     (ip_menu_item, ip)
@@ -43,7 +43,7 @@ pub fn init() -> Result<(), Box<dyn std::error::Error>> {
     if let Ok(event) = MenuEvent::receiver().try_recv() {
       for (menu_item, ip) in &ip_menu_items {
         if event.id() == menu_item.id() {
-          if webbrowser::open(&format!("http://{ip}:50127/qr")).is_err() {
+          if webbrowser::open(&format!("http://{ip}:7127/qr")).is_err() {
             tracing::error!("QR Code cannot be opened");
           }
         }

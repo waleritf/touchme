@@ -3,7 +3,7 @@ import Touchpad from './Control/Touchpad.vue';
 import Buttons from './Control/Buttons.vue';
 import { Ws } from '@/utils/ws';
 
-const SERVER_URL = `http://${window.location.hostname}:50127/ws`;
+const SERVER_URL = `http://${window.location.hostname}:7127/ws`;
 const ws: Ws = new Ws(SERVER_URL);
 
 </script>

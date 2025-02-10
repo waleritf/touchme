@@ -12,7 +12,7 @@ pub async fn start() {
     .route("/ws", any(routes::ws::handler))
     .with_state(Arc::new(AppState::init()));
 
-  let lis = tokio::net::TcpListener::bind("0.0.0.0:50127").await.unwrap();
+  let lis = tokio::net::TcpListener::bind("0.0.0.0:7127").await.unwrap();
 
   tracing::info!("Listening on {}", lis.local_addr().unwrap());
   axum::serve(lis, app).await.unwrap();
