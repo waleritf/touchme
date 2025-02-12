@@ -1,24 +1,7 @@
-use std::sync::Mutex;
+use tokio::sync::mpsc::UnboundedSender;
 
-use enigo::{Enigo, Settings};
+use crate::components::touch::Touch;
 
 pub struct AppState {
-  pub enigo: Mutex<Enigo>,
-}
-
-impl AppState {
-  pub fn init() -> Self {
-    Self {
-      enigo: Mutex::new(init_enigo())
-    }
-  }
-}
-
-fn init_enigo() -> Enigo {
-  Enigo::new(
-    &Settings {
-      windows_subject_to_mouse_speed_and_acceleration_level: true,
-      ..Settings::default()
-    }
-  ).unwrap()
+  pub ch_tx: UnboundedSender<Touch>,
 }

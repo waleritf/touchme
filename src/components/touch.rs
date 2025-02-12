@@ -1,5 +1,3 @@
-use std::sync::Mutex;
-
 use enigo::{Enigo, Keyboard, Mouse};
 use serde::Deserialize;
 
@@ -33,9 +31,7 @@ pub enum Touch {
   Key(KeyAction),
 }
 
-pub fn handle(touch: Touch, enigo: &Mutex<Enigo>) {
-  let mut enigo = enigo.lock().unwrap();
-
+pub fn handle(touch: Touch, enigo: &mut Enigo) {
   match touch {
     Touch::Mouse(action) => {
       match action {
