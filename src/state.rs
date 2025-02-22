@@ -1,24 +1,9 @@
-use std::sync::Mutex;
-
-use enigo::{Enigo, Settings};
-
 pub struct AppState {
-  pub enigo: Mutex<Enigo>,
+  pub event_loop_proxy: tao::event_loop::EventLoopProxy<crate::touch::Touch>,
 }
 
 impl AppState {
-  pub fn init() -> Self {
-    Self {
-      enigo: Mutex::new(init_enigo())
-    }
+  pub fn new(event_loop_proxy: tao::event_loop::EventLoopProxy<crate::touch::Touch>) -> Self {
+    Self { event_loop_proxy }
   }
-}
-
-fn init_enigo() -> Enigo {
-  Enigo::new(
-    &Settings {
-      windows_subject_to_mouse_speed_and_acceleration_level: true,
-      ..Settings::default()
-    }
-  ).unwrap()
 }

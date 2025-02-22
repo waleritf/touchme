@@ -1,6 +1,6 @@
 use std::sync::Arc;
 use axum::{extract::{ws::{Message, WebSocket}, State, WebSocketUpgrade}, response::IntoResponse};
-use crate::{components::touch::{self}, state::AppState};
+use crate::state::AppState;
 
 pub async fn handler(
   ws: WebSocketUpgrade,
@@ -23,11 +23,11 @@ fn handle_message(msg: Message, state: &Arc<AppState>) {
   match msg {
     Message::Text(text) => {
       match serde_json::from_str(&text) {
-        Err(err) => { tracing::error!("{err:?}") },
-        Ok(msg) => { touch::handle(msg, &state.enigo); },
+        Err(err) => tracing::error!("{err:?}"),
+        Ok(msg) => state.event_loop_proxy.send_event(msg).unwrap(),
       }
     },
-    Message::Close(_) => { tracing::info!("Client disconnected") },
-    msg => { tracing::info!("Ignore message {msg:?}") }
+    Message::Close(_) => tracing::info!("Client disconnected"),
+    msg => tracing::info!("Ignore message {msg:?}"),
   }
 }
